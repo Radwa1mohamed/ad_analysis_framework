@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ad_analysis_framework_post</title>
+  <style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap');
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  .post-wrapper {
+    background: #0F1730;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    min-height: 100vh;
+    padding: 40px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .post-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: -80px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.08);
+  }
+  
+  .post-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 240px; height: 240px;
+    border-radius: 50%;
+    border: 1px solid rgba(212,175,55,0.06);
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .header-badge {
+    display: inline-block;
+    background: rgba(212,175,55,0.12);
+    border: 1px solid rgba(212,175,55,0.3);
+    color: #D4AF37;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 16px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-size: 26px;
+    font-weight: 900;
+    color: #D4AF37;
+    line-height: 1.4;
+    margin-bottom: 8px;
+  }
+
+  .header h1 span {
+    color: #ffffff;
+  }
+
+  .header-sub {
+    font-size: 14px;
+    color: #C0C0C0;
+    line-height: 1.6;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+    margin: 16px auto;
+  }
+
+  .intro-bubble {
+    background: rgba(255,255,255,0.03);
+    border-right: 3px solid #D4AF37;
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .intro-bubble p {
+    font-size: 15px;
+    color: #ffffff;
+    line-height: 1.8;
+    font-weight: 400;
+  }
+
+  .intro-bubble p strong {
+    color: #D4AF37;
+    font-weight: 700;
+  }
+
+  .stages-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #D4AF37;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .stages-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(212,175,55,0.2);
+  }
+
+  .stage-card {
+    background: #0B1020;
+    border: 0.5px solid rgba(212,175,55,0.2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .stage-card:hover {
+    border-color: rgba(212,175,55,0.5);
+  }
+
+  .stage-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+
+  .stage-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(212,175,55,0.12);
+    border: 1.5px solid #D4AF37;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 900;
+    color: #D4AF37;
+    flex-shrink: 0;
+  }
+
+  .stage-titles {
+    flex: 1;
+  }
+
+  .stage-en {
+    font-size: 11px;
+    color: #B8941E;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+
+  .stage-ar {
+    font-size: 17px;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .stage-question {
+    background: rgba(212,175,55,0.06);
+    border: 0.5px solid rgba(212,175,55,0.15);
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+  }
+
+  .stage-question p {
+    font-size: 13px;
+    color: #D4AF37;
+    font-weight: 600;
+  }
+
+  .stage-desc {
+    font-size: 14px;
+    color: #C0C0C0;
+    line-height: 1.8;
+  }
+
+  .stage-desc strong {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  .stage-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(184,148,30,0.12);
+    color: #D4AF37;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: 8px;
+  }
+
+  .connector {
+    width: 2px;
+    height: 12px;
+    background: rgba(212,175,55,0.25);
+    margin: -8px auto 0;
+    position: relative;
+    right: calc(50% - 1px);
+    margin-bottom: 0;
+  }
+
+  .formula-section {
+    background: linear-gradient(135deg, rgba(212,175,55,0.08), rgba(184,148,30,0.04));
+    border: 1px solid rgba(212,175,55,0.3);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin: 28px 0;
+  }
+
+  .formula-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #D4AF37;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .formula-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(212,175,55,0.2);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .formula-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .formula-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .formula-dot {
+    width: 6px;
+    height: 6px;
+    background: #D4AF37;
+    border-radius: 50%;
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  .formula-text {
+    font-size: 14px;
+    color: #C0C0C0;
+    line-height: 1.7;
+  }
+
+  .formula-text strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .conclusion-box {
+    background: #111828;
+    border-right: 4px solid #D4AF37;
+    border-radius: 0 12px 12px 0;
+    padding: 20px 22px;
+    margin-top: 28px;
+  }
+
+  .conclusion-box h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #D4AF37;
+    margin-bottom: 14px;
+  }
+
+  .conclusion-points {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .conclusion-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .check-icon {
+    width: 18px;
+    height: 18px;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #D4AF37;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .conclusion-point p {
+    font-size: 14px;
+    color: #C0C0C0;
+    line-height: 1.7;
+  }
+
+  .conclusion-point p strong {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .cta-section {
+    background: rgba(212,175,55,0.07);
+    border: 1px solid rgba(212,175,55,0.25);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .cta-section p {
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .cta-section p span {
+    color: #D4AF37;
+  }
+
+  .cta-btn {
+    background: #D4AF37;
+    color: #0F1730;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 28px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .cta-btn:hover { background: #B8941E; }
+  .cta-btn:active { transform: scale(0.97); }
+
+  .footer {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 12px;
+    color: rgba(192,192,192,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .cta-btn {
+  display: inline-block;
+  background: #25D366;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.cta-btn:hover {
+  background: #1ebe5d;
+  transform: translateY(-2px);
+}
+</style>
+
+</head>
+<body>
+  
+  
+
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">تكوينة تفكيك الإعلانات — خمس مراحل لقراءة أي إعلان</h2>
+
+<div class="post-wrapper">
+
+  <div class="header">
+    <div class="header-badge">AD ANALYSIS FRAMEWORK</div>
+    <h1>🔶 التكوينة اللي بفكك بيها<br><span>أي إعلان</span></h1>
+    <div class="divider"></div>
+    <p class="header-sub">مش بتبص على الإعلان كـ فيديو…<br>بتبص عليه كـ <strong style="color:#D4AF37">"تجربة إحساس متصممة"</strong></p>
+  </div>
+
+  <div class="intro-bubble">
+    <p>أنا ببص على أي إعلان من <strong>5 مراحل</strong> متتاليين… كل مرحلة بتسأل سؤال تاني وبتكشف طبقة تانية في الإعلان.</p>
+  </div>
+
+  <div class="stages-title">المراحل الخمسة</div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-num">1</div>
+      <div class="stage-titles">
+        <div class="stage-en">Relatable Entry</div>
+        <div class="stage-ar">البداية</div>
+      </div>
+    </div>
+    <div class="stage-question"><p>الإعلان دخلني منين؟</p></div>
+    <div class="stage-desc">لو الشخص محسش إنه <strong>جوه القصة</strong>… مش هيكمل. المشهد لازم "يشبهني"، زي شباب بيلعبوا كورة في الشارع.</div>
+    <div class="stage-tag">الانتماء = الخطوة الأولى</div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-num">2</div>
+      <div class="stage-titles">
+        <div class="stage-en">Pattern Break</div>
+        <div class="stage-ar">كسر الواقع</div>
+      </div>
+    </div>
+    <div class="stage-question"><p>الإعلان كسر توقعي فين؟</p></div>
+    <div class="stage-desc">اللحظة اللي بيحصل فيها <strong>Shift مفاجئ</strong>. دي اللي بتخلق Curiosity وتشغل الـ Emotional Hook.</div>
+    <div class="stage-tag">💥 لحظة الانقلاب</div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-num">3</div>
+      <div class="stage-titles">
+        <div class="stage-en">Emotional Escalation</div>
+        <div class="stage-ar">التصعيد</div>
+      </div>
+    </div>
+    <div class="stage-question"><p>الإحساس بيزيد إزاي؟</p></div>
+    <div class="stage-desc">الجمهور بيكبر، الصوت بيعلى، الرهبة بتزيد. هل الإعلان بيكبر الإحساس <strong>تدريجي</strong>… ولا ثابت؟</div>
+    <div class="stage-tag">درجة × درجة</div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-num">4</div>
+      <div class="stage-titles">
+        <div class="stage-en">Peak Moment</div>
+        <div class="stage-ar">الذروة</div>
+      </div>
+    </div>
+    <div class="stage-question"><p>إمتى حسيت إن الرسالة "وصلت"؟</p></div>
+    <div class="stage-desc">مش اتقالت… <strong>وصلت</strong>. اللحظة اللي الإعلان بيأكد فيها الفكرة كلها بشكل لا ينسى.</div>
+    <div class="stage-tag">★ لحظة الإدراك</div>
+  </div>
+
+  <div class="stage-card">
+    <div class="stage-header">
+      <div class="stage-num">5</div>
+      <div class="stage-titles">
+        <div class="stage-en">Core Message</div>
+        <div class="stage-ar">المعنى الحقيقي</div>
+      </div>
+    </div>
+    <div class="stage-question"><p>الإعلان بيبيع إيه فعلًا؟</p></div>
+    <div class="stage-desc">Nike مش بتبيع كوتشي… بتبيع <strong>"إحساس إنك تبقى النسخة الأفضل من نفسك"</strong>. الرسالة دايمًا أعمق من المنتج.</div>
+    <div class="stage-tag">الفكرة تحت الفكرة</div>
+  </div>
+
+  <div class="formula-section">
+    <div class="formula-title">
+      <div class="formula-icon">⚙</div>
+      إزاي بطبق التكوينة في شغلي؟
+    </div>
+    <div class="formula-steps">
+      <div class="formula-step">
+        <div class="formula-dot"></div>
+        <p class="formula-text"><strong>أبدأ</strong> بحاجة تشبه الشخص وتخليه يحس إنه في القصة</p>
+      </div>
+      <div class="formula-step">
+        <div class="formula-dot"></div>
+        <p class="formula-text"><strong>أكسر</strong> توقعه في اللحظة المناسبة</p>
+      </div>
+      <div class="formula-step">
+        <div class="formula-dot"></div>
+        <p class="formula-text"><strong>أصعّد</strong> الإحساس خطوة خطوة</p>
+      </div>
+      <div class="formula-step">
+        <div class="formula-dot"></div>
+        <p class="formula-text"><strong>أوصّله</strong> للحظة إدراك مش بتتنسى</p>
+      </div>
+      <div class="formula-step">
+        <div class="formula-dot"></div>
+        <p class="formula-text"><strong>أربط</strong> ده بالمنتج كـ وسيلة مش هدف</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="conclusion-box">
+    <h3>الخلاصة</h3>
+    <div class="conclusion-points">
+      <div class="conclusion-point">
+        <div class="check-icon">✓</div>
+        <p>أي إعلان قوي <strong>مش معمول علشان يتشاف</strong></p>
+      </div>
+      <div class="conclusion-point">
+        <div class="check-icon">✓</div>
+        <p>هو معمول علشان <strong>يتحس ويتعاش</strong></p>
+      </div>
+      <div class="conclusion-point">
+        <div class="check-icon">✓</div>
+        <p>ويغير <strong>نظرتك لنفسك</strong></p>
+      </div>
+    </div>
+  </div>
+<div class="cta-section">
+  <p>
+    عايز تعرف إزاي تطبق التكوينة دي على <span>محتواك</span> خطوة بخطوة؟
+  </p>
+
+  <a 
+    href="https://wa.me/201507786761?text=عايز%20تفاصيل%20ورشة%20السرد%20القصصي%20لو%20سمحت%20💛"
+    target="_blank"
+    class="cta-btn"
+  >
+    اكتب Story 💛
+  </a>
+</div>
+  <div class="footer">
+    <p>Ad Analysis Framework • 5 Stages</p>
+  </div>
+
+</div>
+<script>
+  const message = "ممكن تفاصيل ورشة السرد القصصي والمخرجات اللي هطلع بيها؟ 💛";
+  const phone = "201XXXXXXXXX";
+
+  document.getElementById("whatsappBtn").href =
+    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+</script>
+</body>
+</html>
